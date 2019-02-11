@@ -17,9 +17,9 @@ find . \( -iname "*.$IEXT" \) -type f -exec mv -nv -t $DIR/ -- {} +
 # input the info
 cd $DIR
 
-read -p "Nombre : " SNAME
-read -p "Temporada: " SNUM
-read -p "Capitulo Inicial: " ICAP
+read -p "Name : " SNAME
+read -p "Season: " SNUM
+read -p "Episode to start loop: " ICAP
 
 # Start Loop!!!!
 a=$ICAP
@@ -32,6 +32,6 @@ done
 # Show me the content and move to other dir
 ls -lah .
 
-read -p "Directorio destino final: " FDIR
+read -p "Final Directory: " FDIR
 mv *.$IEXT $FDIR/
 
