@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #################################
-# Video-Organize
+# Video Organize
 #
-# VERSION 0.3
+# VERSION 0.4
 # Author: Pablo M. Pareja
 #################################
 
@@ -13,15 +13,13 @@ read -p "File Extension: " IEXT
 # Find all files in the directory and subdir
 find . \( -iname "*.$IEXT" \) -type f -exec mv -n -t $DIR/ -- {} +
 
-# Move to dir that contain the files found and
-# input the info
+# Move to dir that contain the files found
+# and input the name of videos
 cd $DIR
 
 echo ""
 echo "********************************"
 read -p "Name : " SNAME
-# read -p "Season: " SNUM
-# read -p "Episode to start loop: " ICAP
 
 
 echo ""
@@ -32,7 +30,6 @@ echo ""
 for i in *; do
     Var1=$(echo $i | awk '{print match(tolower($0),/s[0-9]+e/)}')
     Varfin=$(( Var1 + 5 ))
-    # echo $Varfin
 
     if [ $Var1 != 0 ] ; then
         SEP=$(echo $i | cut -b $Var1-$Varfin | awk '{ print tolower($0) }')
@@ -52,7 +49,6 @@ if [ $QCONTINUE = "y" ]; then
     for i in *; do
         Var1=$(echo $i | awk '{print match(tolower($0),/s[0-9]+e/)}')
         Varfin=$(( Var1 + 5 ))
-        # echo $Varfin
 
         if [ $Var1 != 0 ] ; then
             SEP=$(echo $i | cut -b $Var1-$Varfin | awk '{ print tolower($0) }')
@@ -68,19 +64,23 @@ else
 fi
 
 
-# Start Loop!!!!
-# a=$ICAP
-# for i in *.$IEXT; do
-#   new=$(printf "$SNAME-s"$SNUM"e0%0d."$IEXT"" "$a")
-#   mv -i -- "$i" "$new"
-#   let a=a+1
-# done
-
 # Show me the content and move to other dir
-# ls -lah .
+cd $DIR
+echo ""
+echo "****************************"
+echo "Se han realizado los cambios"
+echo ""
+ls -lah .
 
-# echo ""
-# read -p "Final Directory: " FDIR
-# echo "(E.g.: /home/user/Documents)"
-# mv *.$IEXT $FDIR/
+# Question to move to another directory
+echo ""
+read -p "Quieres mover los archivos a otro directorio? [y/n]: " QDIR
+if [ $QDIR = "y" ]; then
+    echo ""
+    read -p "Introducir Directorio de Destino (ruta absoluta): " FDIR
+    echo "(E.g.: /home/user/Documents)"
+    mv *.$IEXT $FDIR/
+else
+    exit 0
+fi
 
